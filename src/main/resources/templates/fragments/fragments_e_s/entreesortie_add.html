@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="entreesortie_add">
+
+    <!-------------------------------------------------------- Modal add EntreeSorties ------------------------------------------------------>
+    <div class="modal fade" id="enterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nouvelle entrée/sortie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/entreesortie/enregistrer}" method="post" th:object="${entreeSortie}">
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:value="${entreeSortie.motif}" id="motif" name="motif">
+                                <th:block th:each="optMotif : ${T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).values()}">
+                                    <option th:value="${optMotif}" th:text="${optMotif}"></option>
+                                </th:block>
+                            </select>
+                            <label for="motif">Motif</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                             <select id="utilisateur" class="form-select" th:field="*{utilisateur}">Utilisateur
+                                <option th:each="utilisateurs:${utilisateurs}" th:value="${utilisateurs.id}" th:text="${utilisateurs.nomPrenom}"></option>
+                            </select>
+                            <label for="utilisateur">Utilisateur</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select id="outil" class="form-select" th:field="*{outil}">Outil
+                                <option th:each="outils:${Outils}" th:value="${outils.id}" th:text="${outils.identification}"></option>
+                            </select>
+                            <label for="outil" >Outil</label>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="date_sortie" class="form-label col-5">Date sortie</label>
+                            <div class="col-7">
+                                <input type="date" class="form-control" name="date_sortie" id="date_sortie" th:value="${currentDate}" placeholder="JJ/MM/AAAA">
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_de_retour_prevue" id="date_de_retour_prevue" placeholder="JJ/MM/AAAA" th:field="*{date_de_retour_prevue}">
+                            <label for="date_de_retour_prevue">Date de retour prévue</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_retour" id="date_retour" placeholder="JJ/MM/AAAA" th:field="*{date_retour}">
+                            <label for="date_retour">Date de retour</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_etalonnage" id="date_etalonnage" placeholder="JJ/MM/AAAA" th:field="*{date_etalonnage}">
+                            <label for="date_etalonnage">Date d'étalonnage</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" name="probleme" id="probleme" placeholder="probleme" th:field="*{probleme}">
+                            <label for="probleme" >Problème</label>
+                        </div>
+
+                        <input type="hidden" name="referencePV" id="referencePV" th:field="*{referencePV}">
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

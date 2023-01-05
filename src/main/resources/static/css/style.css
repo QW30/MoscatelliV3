@@ -1,0 +1,134 @@
+* {
+    box-sizing: border-box;
+}
+
+.page {
+    width: 1440px;
+    margin: auto auto;
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bouton {
+    padding: 0 25px;
+    height: 53px;
+    background: #CCE8FD;
+    /*color: white;*/
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 35px 35px 35px;
+    border: none;
+}
+
+.bouton2 {
+    padding: 0 25px;
+    height: 53px;
+    background: #E1E1E1;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 35px 35px 35px;
+    border: none;
+    /*color: white;*/
+}
+
+.bouton3 {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    width: 157px;
+    height: 53px;
+    /*color: white;*/
+    background: #CCE8FD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 35px;
+    border: none;
+    margin-left: 1175px;
+    margin-top: 25px;
+
+}
+.form-inline {
+    margin-right: 85px;
+}
+
+a {
+    text-decoration: none;
+    /*color: white;*/
+}
+
+/*a:hover {
+    color : white;
+}*/
+
+a.tri {
+    color: black;
+}
+
+a.tri.asc::after {
+    content: "";
+    display: block;
+    background: url('/img/sort-alpha-down.svg') no-repeat;
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin: 0 0 0 3px;
+}
+a.tri.desc::after {
+    content : '\F571'
+}
+
+.vert {
+    background-color: yellowgreen !important;
+    /*color: #fff !important;*/
+}
+
+.orange {
+    background-color: darkorange !important;
+    /*color: #fff !important;*/
+}
+.rouge {
+    background-color: red !important;
+    /*color: #fff !important;*/
+}
+.tomate {
+    background-color: tomato !important;
+    /*color: #fff !important;*/
+}
+/*.alerte {
+   animation-duration: .8s;
+   animation-name: clignoter;
+   animation-iteration-count: infinite;
+   transition: none;
+
+}
+
+@keyframes clignoter {
+  0%   { opacity:1; }
+  40%   {opacity:0; }
+  100% { opacity:1; }
+}
+*/
+
+.bleu {
+    background-color: orchid !important;
+    /*color: #fff !important;*/
+}
+
+.gris {
+    background-color:grey !important;
+    /*color: #fff !important;*/
+}
+
+.vertClair {
+    background-color:palegreen !important;
+    /*color: #fff !important;*/
+}
+
+.bi-clock-history {
+    font-size: 1.2rem;
+}
+
+.bi-box-arrow-in-right, .bi-box-arrow-in-left {
+    font-size: 1.2rem;
+}
+
+.bi-exclamation-triangle {
+    font-size: 1.2rem;
+    font-weight: bold;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="outils_tableau">
+    <div class="text-center" >
+        <h1 sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" th:if="${etalonnee}">Gestion des appareils etalonnés</h1>
+        <h1 sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" th:if="${!etalonnee}">Gestion des outils</h1>
+        <h1 sec:authorize="hasAnyRole('ROLE_VISITEUR')" th:if="${etalonnee}">Liste des appareil etalonnés</h1>
+        <h1 sec:authorize="hasAnyRole('ROLE_VISITEUR')" th:if="${!etalonnee}">Liste des outils</h1>
+
+        <!------------------------------Entête du tableau ----------------------------------------------------------------->
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col">Désignation</th>
+                    <th scope="col">Marque</th>
+                    <th scope="col">Modèle</th>
+                    <th scope="col">N° de série</th>
+                    <th scope="col">Puissance</th>
+                    <th scope="col" th:if="${etalonnee}" >Capacité</th>
+                    <th scope="col">Repère</th>
+                    <th scope="col" th:if="${etalonnee}">Réf.PV</th>
+                    <th scope="col" th:if="${etalonnee}">Péremption étalonnage</th>
+                    <th scope="col">État</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col" colspan="5"></th>
+                </tr>
+            </thead>
+
+            <!---------------------------- Contenu du tableau ----------------------------------->
+            <tbody>
+                <th:block th:each="outil : ${Outils}">
+                    <tr th:class="${outil.classCouleur}">
+                        <td>[[${outil.designation}]]</td>
+                        <td>[[${outil.marque}]]</td>
+                        <td>[[${outil.modele}]]</td>
+                        <td>[[${outil.numero_de_serie}]]</td>
+                        <td>[[${outil.puissance}]]</td>
+                        <td th:if="${etalonnee}">[[${outil.capacite}]]</td>
+                        <td>[[${outil.repere}]]</td>
+                        <td th:if="${etalonnee}"><a th:if="${outil.esEnCours.ReferencePV != null}" th:href="@{'/outils/download/' + ${outil.esEnCours.ReferencePV}}">PV</a></td>
+                        <td th:if="${etalonnee}">[[${outil.date_prochain_etalonnage}]]</td>
+                        <td>[[${outil.etat}]]</td>
+                        <td>[[${outil.typeStatut}]]</td>
+                        <td>[[${outil.categorie}]]</td>
+                        <td><i  th:if="${outil.classCouleur=='tomate'||outil.classCouleur=='rouge'}" class="bi bi-exclamation-triangle"></i></td>
+                        <td><a th:if="${outil.esEnCours.id!=null && outil.esEnCours.date_retour==null && !(outil.typeStatut eq T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Rebut)}"
+                               sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')"
+                               type="button" data-bs-toggle="modal"  th:attr="data-bs-target='#retourModal'+*{outil.id}" ><i class="bi bi-box-arrow-in-left mx-1"></i></a></td>
+                        <td><a th:if="${(outil.esEnCours.id==null || outil.esEnCours.date_retour!=null) && (outil.typeStatut eq T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Disponible)}"
+                               sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')"
+                               type="button" data-bs-toggle="modal" th:attr="data-bs-target='#sortieModal'+*{outil.id}"><i class="bi bi-box-arrow-in-right mx-1"></i></a></td>
+                        <td><a sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#editModal'+*{outil.id}"><i class="bi bi-pencil-fill mx-1"></i></a></td>
+                        <td><a sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" type="button" data-bs-toggle="modal"  th:attr="data-bs-target='#deleteModal'+*{outil.id}"><i class="bi bi-trash-fill mx-1"></i></a></td>
+                        <td><a sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" type="button" data-bs-toggle="modal"  th:attr="data-bs-target='#historyModal'+*{outil.id}"><i class="bi bi-clock-history mx-1"></i></a>
+
+        <!------------------------------- Modal edit / delete ------------------------------------------------------>
+
+                            <div th:replace="fragments/fragments_outil/outils_edit.html :: outils_edit"></div>
+                            <div th:replace="fragments/fragments_outil/outils_delete.html :: outils_delete"></div>
+
+        <!------------------------------- Modal entree sortie ------------------------------------------------------>
+
+                            <div th:replace="fragments/fragments_outil/outils_entree_sortie.html :: outils_entree_sortie"></div>
+                            <div th:replace="fragments/fragments_outil/outils_history.html :: outils_history"></div>
+                        </td>
+
+    <!----------------------------------- Fermeture du tableau ------------------------------------------------------>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>

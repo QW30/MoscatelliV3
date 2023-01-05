@@ -1,0 +1,74 @@
+<div th:fragment="utilisateurs_add" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+    <!-------------------------------------------------------- Modal add ------------------------------------------------------>
+
+
+
+    <div class="modal fade" id="enterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nouvel utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form th:action="@{/utilisateur/enregistrer}" method="post" th:object="${utilisateur}">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nom" placeholder="nom" th:field="*{nom}">
+                            <label for="nom">Nom</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="prenom" placeholder="prenom" th:field="*{prenom}">
+                            <label for="prenom">Prénom</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="telephone" placeholder="06 00 00 00 00" th:field="*{telephone}">
+                            <label for="telephone">Téléphone</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email" placeholder="email" th:field="*{email}">
+                            <label for="email">E-mail</label>
+                        </div>
+
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="mdp" placeholder="mdp" th:field="*{mdp}">
+                            <label for="mdp">Mot de passe</label>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label">Rôle</label>
+                            <th:block th:each="role : ${roles}">
+                                <input type="checkbox" class="m-2"
+                                       th:checked="${utilisateur.isUserInRole(role.nom)}"
+                                       th:value="${role.nom}"
+                                       th:text="${role.nom}"
+                                       th:id="${role.nom}"
+                                       th:name="${role.nom}"
+                                />
+                           </th:block>
+                       </div>
+
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

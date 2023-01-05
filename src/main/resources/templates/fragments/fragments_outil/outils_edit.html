@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="outils_edit">
+
+
+    <!-------------------------------------------------------- Modal Edit etalonnee------------------------------------------------------>
+    <div class="modal fade"  th:attr="id='editModal'+*{outil.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEdit">Modifier un outil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form th:action="@{'/outils/modifier/'+ ${outil.id} +'?keyword=' +${keyword}+'&etalonnee=' +${etalonnee}}"  method="post" th:object="${outil}">
+                        <input type="hidden" th:name="${outil.id}">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="*{designation}" class="form-control" id="designation" name="designation" >
+                            <label for="designation">Désignation</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.marque}"class="form-control" id="marque" name="marque">
+                            <label for="marque">Marque</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.modele}" class="form-control" id="modele" name="modele" >
+                            <label for="modele">Modèle</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.numero_de_serie}" class="form-control" id="numero_de_serie" name="numero_de_serie">
+                            <label for="numero_de_serie">Numéro de série</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.puissance}" class="form-control" id="puissance" name="puissance" >
+                            <label for="puissance">Puissance</label>
+                        </div>
+
+                        <div th:if="${etalonnee}" class="form-floating mb-3">
+                            <input type="text" th:value="${outil.capacite}" class="form-control" id="capacite" name="capacite" >
+                            <label for="capacite">capacite</label>
+                        </div>
+                        <input th:if="${!etalonnee}" type="hidden" th:value="${outil.capacite}" id="capacite" name="capacite" >
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.repere}" class="form-control" id="repere" name="repere">
+                            <label for="repere">Repère</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:value="${outil.etat}"  id="etat" name="etat" >
+                                <th:block  th:each="etatOpt : ${T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.Etat).values()}">
+                                    <option th:value="${etatOpt}" th:text="${etatOpt}"
+                                            th:selected="${outil.etat}==${etatOpt}"></option>
+                                </th:block>
+                            </select>
+                            <label for="etat">État</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:value="${outil.categorie}"  id="categorie" name="categorie" >
+                                <th:block  th:each="categorieOpt : ${T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.Categorie).values()}">
+                                    <option th:value="${categorieOpt}" th:text="${categorieOpt}"
+                                            th:selected="${outil.categorie}==${categorieOpt}"></option>
+                                </th:block>
+                            </select>
+                            <label for="categorie">Catégorie</label>
+                        </div>
+
+                        <input th:if="${outil.typeStatut != T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Disponible && outil.typeStatut != T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Rebut}"
+                               type="hidden" th:value="${outil.typeStatut}" id="typeStatut" name="typeStatut" />
+
+                        <div th:unless="${outil.typeStatut != T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Disponible && outil.typeStatut != T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Rebut}"  class="form-floating mb-3">
+                            <select class="form-select" th:value="${outil.typeStatut}" id="typeStatut" name="typeStatut" >
+                                <th:block  th:each="statutOpt : ${T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).values()}">
+                                <option th:if="${statutOpt eq T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Disponible
+                                                  ||(statutOpt eq T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.TypeStatut).Rebut)}"
+                                        th:value="${statutOpt}" th:text="${statutOpt}"
+                                        th:selected="${outil.typeStatut}==${statutOpt}"></option>
+
+
+
+
+
+                                </th:block>
+                            </select>
+                            <label for="typeStatut">Statut</label>
+                        </div>
+
+                        <div th:if="${etalonnee}" class="form-floating mb-3">
+                            <input type="text" th:value="${outil.periodicite}" class="form-control" id="periodicite" name="periodicite">
+                            <label for="periodicite" class="form-label">Périodicité</label>
+                        </div>
+
+                        <input th:if="${!etalonnee}" type="hidden" th:value="${outil.periodicite}" id="periodicite" name="periodicite" >
+                        <input th:if="${etalonnee}" type="hidden" th:value="${outil.date_prochain_etalonnage}" id="date_prochain_etalonnage" name="date_prochain_etalonnage" >
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${outil.fournisseur}" class="form-control" id="fournisseur" name="fournisseur">
+                            <label for="fournisseur">Fournisseur</label>
+                        </div>
+
+                        <!----------------- Modal footer ----------------->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

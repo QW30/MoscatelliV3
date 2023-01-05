@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head th:replace="fragments/fragment.html :: head"> </head>
+<!-------------------------------------------------------- Header ------------------------------------------------------>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">MOSCATELLI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Menu admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/Moscatelli/outils">Gestion des Outils</a></li>
+                            <li><a class="dropdown-item" href="/utilisateur">Gestion des comptes</a></li>
+                            <li><a class="dropdown-item" href="/entreesortie">Gestion des prets</a></li>
+                            <li><a class="dropdown-item" href="/alertes">Gestion des Alertes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!---------------------------- Barre de recherche ----------------------------------->
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        </form>
+    </nav>
+</header>
+<!-------------------------------------------------------- Main ------------------------------------------------------>
+<main>
+    <div class="container">
+        <button class="bouton3" type="button" data-bs-toggle="modal" data-bs-target="#enterModal">Ajouter</button>
+    </div>
+    <div class="text-center">
+        <h1>Gestion des alertes</h1>
+    </div>
+    <!---------------------------- Début du tableau ----------------------------------->
+    <div class="page">
+        <table class="table table-striped table-responsive" >
+            <thead>
+            <tr>
+                <th scope="col">Alertes</th>
+                <th scope="col">Destinataires</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <!---------------------------- Contenu du tableau ----------------------------------->
+            <tbody>
+            <tr>
+                <td>Alerte 1</td>
+                <td>Mark@front.fr</td>
+                <td><a type="button" data-bs-toggle="modal" data-bs-target="#deleteModal"><img src="img/trash-fill.svg"></a></td>
+                <td><a type="button" data-bs-toggle="modal" data-bs-target='#editModal'+><img src="img/pencil-fill.svg"></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-------------------------------------------------------- Modal Edit------------------------------------------------------>
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="EditModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Alertes</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput12" placeholder="Designation">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Destinataires</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput10" placeholder="repere">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-------------------------------------------------------- Modal Delete ------------------------------------------------------>
+
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalDelete">Supprimer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        êtes-vous sur de vouloir supprimer cette alerte ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-------------------------------------------------------- Modal addUser ------------------------------------------------------>
+        <div class="modal fade" id="enterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddModal">Nouvelle alerte</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Alerte</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Designation">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Destinataire</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="repere">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+
+</body>
+</html>

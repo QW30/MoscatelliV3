@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/fragment.html :: head"> </head>
+
+<!-------------------------------------------------------- Header ------------------------------------------------------>
+<body>
+<header th:replace="fragments/fragment.html :: header"> </header>
+<!-------------------------------------------------------- Main ------------------------------------------------------>
+<main>
+    <div class="container">
+        <button class="bouton3" type="button" data-bs-toggle="modal" data-bs-target="#enterModal">Ajouter</button>
+    </div>
+    <div class="text-center">
+        <h1>Gestion des utilisateurs</h1>
+    </div>
+                    <!---------------------------- Début du tableau ----------------------------------->
+
+    <div sec:authorize="hasRole('ROLE_VISITEUR')"> Consultation simple</div>
+    <div sec:authorize="hasRole('ROLE_MAGASINIER')"> Gestion magasinier</div>
+    <div sec:authorize="hasRole('ROLE_ADMINISTRATEUR')"> Gestion administrateur</div>
+
+    <!------------------------------------------------------ Tableau des utilisateurs ------------------------------------------------------>
+
+    <div th:replace="fragments/fragments_utilisateur/utilisateurs_tableau.html :: utilisateurs_tableau"></div>
+
+    <!---------------------------------------------------------- Modal Add ------------------------------------------------------>
+
+    <div th:replace="fragments/fragments_utilisateur/utilisateurs_add.html :: utilisateurs_add"></div>
+
+    </div>
+</main>
+</body>
+</html>

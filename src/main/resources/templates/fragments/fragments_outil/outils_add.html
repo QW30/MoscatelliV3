@@ -1,0 +1,92 @@
+<div th:fragment="outils_add" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+    <!-------------------------------------------------------- Modal add ------------------------------------------------------>
+    <div class="modal fade" id="enterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nouvel outil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/outils/enregistrer?keyword=' +${keyword}+'&etalonnee=' +${etalonnee}}" method="post" th:object="${Outil}">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{designation}"  class="form-control" id="designation" name="designation" placeholder="designation">
+                            <label for="designation">Désignation</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{marque}"  class="form-control" id="marque" name="marque" placeholder="marque">
+                            <label for="marque">Marque</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text"  th:field="*{modele}" class="form-control" id="modele" name="modele" placeholder="modele">
+                            <label for="modele">Modèle</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{puissance}"  class="form-control" id="puissance" name="puissance" placeholder="puissance">
+                            <label for="puissance">Puissance</label>
+                        </div>
+
+                        <div  th:if="${etalonnee}" class="row form-floating mb-3">
+                            <input type="text" th:field="*{capacite}"  class="form-control" id="capacite" name="capacite" placeholder="capacite">
+                            <label for="capacite">Capacité</label>
+                        </div>
+                        <input th:unless="${etalonnee}"  type="hidden" th:field="*{capacite}" placeholder="capacite">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{numero_de_serie}"  class="form-control" id="numero_de_serie" name="numero_de_serie" placeholder="numero de serie">
+                            <label for="numero_de_serie">Numéro de série</label>
+                        </div>
+
+                        <div  th:if="${etalonnee}" class="row form-floating mb-3">
+                            <input type="text" th:field="*{periodicite}"  class="form-control" id="periodicite" name="periodicite" placeholder="periodicite">
+                            <label for="periodicite">Périodicité</label>
+                        </div>
+                        <input th:unless="${!etalonnee}"  type="hidden" th:field="*{periodicite}" placeholder="periodicite">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{repere}"  class="form-control" id="repere" name="repere" placeholder="Repère">
+                            <label for="repere">Repère</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:field="*{fournisseur}"  class="form-control" id="fournisseur" name="fournisseur" placeholder="fournisseur">
+                            <label for="fournisseur">Fournisseur</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:field="*{etat}"  id="etat" name="etat" >
+                                <th:block  th:each="etatOpt : ${T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.Etat).values()}">
+                                    <option th:value="${etatOpt}" th:text="${etatOpt}"></option>
+                                </th:block>
+                            </select>
+                            <label for="etat">État</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:field="*{categorie}"  id="categorie" name="categorie" >
+                                <th:block  th:each="categorieOpt : ${T(fr.hellocorp.projetmoscatelli.admin.outil.Outil.Categorie).values()}">
+                                    <option th:value="${categorieOpt}" th:text="${categorieOpt}"></option>
+                                </th:block>
+                            </select>
+                            <label for="categorie">Catégorie</label>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

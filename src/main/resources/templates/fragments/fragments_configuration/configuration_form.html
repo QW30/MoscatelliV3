@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div th:fragment="configuration_form">
+    <!-------------------------------------------------------- Main ------------------------------------------------------>
+    <main>
+        <div class="page">
+
+            <div class="container">
+                <div class="text-center">
+                    <h1>Configuration</h1>
+                </div>
+
+                <form th:action="@{/configuration/enregistrer}" method="post" th:object="${configuration}">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="row mb-3">
+                        <label for="destinatairesNotification" class="col-4 form-label">Destinataires des notifications</label>
+                        <div class="col-8">
+                            <input type="text" th:field="*{destinatairesNotification}" class="form-control" id="destinatairesNotification" name="destinatairesNotification" >
+                        </div>
+                    </div>
+
+                    <!--<div class="row mb-3">
+                        <label for="heureEnvoi" class="col-4 form-label">Heure d'envoi</label>
+                        <div class="col-8">
+                            <input type="time" th:field="*{heureEnvoi}" class="form-control" id="heureEnvoi" name="heureEnvoi" >
+                        </div>
+                    </div>*-->
+
+                    <div class="row mb-3">
+                        <div class="col-4"></div>
+                        <div class="col-8 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" th:field="*{alerteOnOff}" id="alerteOnOff" name="alerteOnOff" >
+                            <label for="alerteOnOff" class="form-label">Activation alerte on/off</label>
+                        </div>
+                    </div>
+
+                    <!--<div class="row mb-3">
+                        <label for="dureePret" class="col-4 form-label">Durée du pret</label>
+                        <div class="col-8">
+                            <input type="number" th:field="*{dureePret}" class="form-control" id="dureePret" name="dureePret" >
+                        </div>
+                    </div>-->
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+</html>

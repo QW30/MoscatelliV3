@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/fragment.html :: head"> </head>
+<!-------------------------------------------------------- Header ------------------------------------------------------>
+<body>
+<header th:replace="fragments/fragment.html :: header"> </header>
+<!-------------------------------------------------------- Main ------------------------------------------------------>
+<main class="container">
+
+    <div>
+        <button th:class="${etalonnee? 'bouton' : 'bouton2'}"><a th:href="@{/outils?etalonnee=false}">Outils</a></button>
+        <button th:class="${etalonnee? 'bouton2' : 'bouton'}"><a th:href="@{/outils?etalonnee=true}">Appareil etalonnés</a></button>
+        <!--<button th:class="${categorie? 'bouton4' : 'bouton2'}"><a th:href="@{/outils?categorie=}">Test categorie</a></button>-->
+    </div>
+
+    <div>
+        <button sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR', 'ROLE_MAGASINIER')" class="bouton3" type="button" data-bs-toggle="modal" data-bs-target="#enterModal">Ajouter</button>
+    </div>
+    <!---------------------------- Début du tableau ----------------------------------->
+
+    <div sec:authorize="hasRole('ROLE_VISITEUR')"> Consultation simple</div>
+    <div sec:authorize="hasRole('ROLE_MAGASINIER')"> Gestion magasinier</div>
+    <div sec:authorize="hasRole('ROLE_ADMINISTRATEUR')"> Gestion administrateur</div>
+
+<!------------------------------------------------------ Tableau des outils ------------------------------------------------------>
+
+    <div th:replace="fragments/fragments_outil/outils_tableau.html :: outils_tableau"></div>
+
+<!---------------------------------------------------------- Modal Add ------------------------------------------------------>
+
+    <div th:replace="fragments/fragments_outil/outils_add.html :: outils_add"></div>
+
+    <script th:inline="javascript">
+    function showHide(element) {
+        const args=element.id.split('_');
+        let id=element.id.split('_')[1];
+        //alert(id);
+        if (document.querySelector('#existant'+id).classList.contains("d-flex")) {
+            document.querySelector('#existant'+id).classList.replace("d-flex","d-none");
+            document.querySelector('#nouveau'+id).classList.replace("d-none","d-flex");
+            element.innerText="Existant";
+        } else {
+            document.querySelector('#nouveau'+id).classList.replace("d-flex","d-none");
+            document.querySelector('#existant'+id).classList.replace("d-none","d-flex");
+            element.innerText="Nouveau";
+        }
+    }
+</script>
+
+</div>
+</main>
+
+</body>
+
+</html>

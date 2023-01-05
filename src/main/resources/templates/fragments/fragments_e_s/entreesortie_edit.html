@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="entreesortie_edit">
+    <!-------------------------------------------------------- Modal Edit------------------------------------------------------>
+    <div class="modal fade"  th:attr="id='editModal'+*{entreeSortie.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEdit">Modifier une entrée/sortie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/entreesortie/modifier/'+ ${entreeSortie.id}+'?keyword=' +${keyword}}"  method="post" >
+                        <input type="hidden" th:value="${entreeSortie.id}">
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" th:value="${entreeSortie.motif}" id="motif" name="motif">
+                                <th:block th:each="optMotif : ${T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).values()}">
+                                    <option th:value="${optMotif}" th:text="${optMotif}"
+                                            th:selected="${entreeSortie.motif}==${optMotif}"
+
+                                    ></option>
+                                </th:block>
+                            </select>
+                            <label for="motif">Motif</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="utilisateur" name="utilisateur">
+                                <option th:each="utilisateur:${utilisateurs}" th:value="${utilisateur.id}" th:text="${utilisateur.nomPrenom}"
+                                        th:selected="${entreeSortie.utilisateur.id}==${utilisateur.id}"></option>
+                            </select>
+                            <label for="utilisateur">Utilisateur</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="outil" name="outil">
+                                <option th:each="outil:${Outils}" th:value="${outil.id}" th:text="${outil.identification}"
+                                        th:selected="${entreeSortie.outil.id} == ${outil.id}"></option>
+                            </select>
+                            <label for="outil">Outil</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_sortie" id="date_sortie" placeholder="JJ/MM/AAAA" th:value="${entreeSortie.date_sortie}">
+                            <label for="date_sortie" >Date sortie</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_de_retour_prevue" id="date_de_retour_prevue" placeholder="JJ/MM/AAAA" th:value="${entreeSortie.date_de_retour_prevue}">
+                            <label for="date_de_retour_prevue" >Date de retour prévue</label>
+                        </div>
+
+                        <div th:unless="${entreeSortie.date_retour}!=null" class="form-floating mb-3">
+                            <input type="hidden" class="form-control" name="date_retour" id="date_retour" placeholder="JJ/MM/AAAA" th:value="${entreeSortie.date_retour}">
+                        </div>
+
+                        <div th:if="${entreeSortie.date_retour}!=null" class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_retour" id="date_retour" placeholder="JJ/MM/AAAA" th:value="${entreeSortie.date_retour}">
+                            <label for="date_retour" >Date de retour</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="Date" class="form-control" name="date_etalonnage" id="date_etalonnage" placeholder="JJ/MM/AAAA" th:value="${entreeSortie.date_etalonnage}">
+                            <label for="date_etalonnage" >Date d'étalonnage</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${entreeSortie.EXE}" class="form-control" id="EXE" name="EXE">
+                            <label for="EXE" >Numéro d'EXE</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${entreeSortie.probleme}" class="form-control" id="probleme" name="probleme">
+                            <label for="probleme" >probleme</label>
+                        </div>
+
+                        <input type="hidden" th:value="${entreeSortie.referencePV}" id="referencePV"  name="referencePV" >
+
+                        <!----------------- Modal footer ----------------->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

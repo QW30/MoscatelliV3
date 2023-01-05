@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/fragment.html :: head"></head>
+<!-------------------------------------------------------- Header ------------------------------------------------------>
+<body>
+<header th:replace="fragments/fragment.html :: header"> </header>
+<!-------------------------------------------------------- Main ------------------------------------------------------>
+<main>
+    <div class="container">
+        <button  sec:authorize="hasAnyRole('ROLE_ADMINISTRATEUR')" class="bouton3" type="button" data-bs-toggle="modal" data-bs-target="#enterModal">Ajouter</button>
+    </div>
+    <!---------------------------- Début du tableau ----------------------------------->
+
+    <div sec:authorize="hasRole('ROLE_VISITEUR')"> Consultation simple</div>
+    <div sec:authorize="hasRole('ROLE_MAGASINIER')"> Gestion magasinier</div>
+    <div sec:authorize="hasRole('ROLE_ADMINISTRATEUR')"> Gestion administrateur</div>
+    <p th:text="${#temporals.format(localDateTime, 'dd-MM-yyyy HH:mm')}"></p>
+   
+        <!------------------------------------------------------ Tableau des entreesortie ------------------------------------------------------>
+
+        <div th:replace="fragments/fragments_e_s/entreesortie_tableau.html :: entreesortie_tableau"></div>
+
+        <!---------------------------------------------------------- Modal Add ------------------------------------------------------>
+        <div th:replace="fragments/fragments_e_s/entreesortie_add.html :: entreesortie_add"></div>
+
+    </div>
+</main>
+</body>
+</html>
+

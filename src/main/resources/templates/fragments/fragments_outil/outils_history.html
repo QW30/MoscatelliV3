@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="outils_history">
+
+<!------------------------------------------------------Modal history ------------------------------------------------------>
+
+    <div class="modal fade" th:attr="id='historyModal'+*{outil.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Historique [[${outil.designation}]] [[${outil.modele}]]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-stripped table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Utilisateur</th>
+                            <th scope="col">Sortie</th>
+                            <th scope="col">Retour prévu</th>
+                            <th scope="col">Retour</th>
+                            <th scope="col">Probleme</th>
+                            <th scope="col">Référence PV</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="entreeSortie : ${outil.entreesSorties}">
+
+                            <tr>
+                                <td>[[${entreeSortie.id}]]</td>
+                                <td>[[${entreeSortie.utilisateur.nomPrenom}]]</td>
+                                <td><date-formatter th:text="${entreeSortie.date_sortie}"></date-formatter></td>
+                                <td>[[${entreeSortie.date_de_retour_prevue}]]</td>
+                                <td>[[${entreeSortie.date_retour}]]</td>
+                                <td>[[${entreeSortie.probleme}]]</td>
+
+                                <td><a th:if="${entreeSortie.ReferencePV != null}" th:href="@{'/outils/download/' + ${entreeSortie.ReferencePV}}">[[${entreeSortie.referencePV}]]</a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>const dateFormatterElements = document.querySelectorAll("date-formatter");
+
+dateFormatterElements.forEach(element => {
+    const date = new Date(Date.parse(element.textContent));
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formatter = new Intl.DateTimeFormat("fr-FR", options);
+    element.textContent = formatter.format(date);
+});
+</script>

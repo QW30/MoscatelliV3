@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:fragment="outils_entree_sortie">
+
+<!------------------------------------------------------Modal sortie outils ------------------------------------------------------>
+
+    <div class="modal fade" th:attr="id='sortieModal'+*{outil.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModal">Prêter [[${outil.designation}]] [[${outil.modele}]]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form th:action="@{'/outils/sortie/?keyword=' +${keyword}+'&etalonnee=' +${etalonnee}}" method="post">
+
+                        <input type="hidden" id="outil" name="outil" th:value="${outil.id}">
+
+                        <div class="row mb-3">
+                            <label for="motif" class="form-label col-5">Motif</label>
+                            <div class="col-7">
+<!--                                <select class="form-select" id="motif" name="motif">-->
+<!--                                    <option value="Prêt">Prêt</option>-->
+<!--                                    <option th:if="${etalonnee}" value="Etalonnage">Etalonnage</option>-->
+<!--                                    <option value="Maintenance">Maintenance</option>-->
+<!--                                </select>-->
+
+                                <select class="form-select" id="motif" name="motif">
+                                    <th:block th:each="optMotif : ${T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).values()}">
+                                        <option th:unless="${optMotif eq T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).Etalonnage && !etalonnee}"
+                                            th:value="${optMotif}" th:text="${optMotif}"></option>
+                                    </th:block>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 d-flex">
+                            <label for="utilisateur" class="form-label col-5">Utilisateur (<a href="javascript:void(0)" th:attr="id='a_'+*{outil.id}"  onclick="showHide(this)">Nouveau</a>)</label>
+                            <div th:attr="id='existant'+*{outil.id}"  class="existant col-7 d-flex">
+                                <select class="form-select" id="utilisateur" name="utilisateur">
+                                    <option th:each="utilisateurs:${utilisateurs}" th:value="${utilisateurs.id}" th:text="${utilisateurs.nomPrenom}"></option>
+                                </select>
+                            </div>
+                            <div th:attr="id='nouveau'+*{outil.id}" class="nouveau col-7 d-none flex-column">
+
+                                <input id="nom" name="nom" type="text" class="form-control" placeholder="Nom"><br />
+                                <input id="prenom" name="prenom" type="text" class="form-control" placeholder="Prénom"><br />
+                                <input id="telephone" name="telephone" type="text" class="form-control" placeholder="Téléphone">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="date_sortie" class="form-label col-5">Date sortie</label>
+                            <div class="col-7">
+                                <input type="date" class="form-control" name="date_sortie" id="date_sortie" th:value="${currentDate}" placeholder="JJ/MM/AAAA">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="date_de_retour_prevue" class="form-label col-5">Date de retour prévue</label>
+                            <div class="col-7">
+                                <input type="Date" class="form-control" name="date_de_retour_prevue" id="date_de_retour_prevue" th:value="${currentDate}" placeholder="JJ/MM/AAAA">
+                            </div>
+                        <div class="row mb-3">
+                            <label for="EXE" class="form-label col-5">Numéro d'EXE</label>
+                            <div class="col-7">
+                                <input type="Text" class="form-control" name="EXE" id="EXE" placeholder="Numéro d'exe">
+                            </div>
+                        </div>
+
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!------------------------------------------------------Modal retour outils ------------------------------------------------------>
+
+    <div th:if="${outil.esEnCours.id}!=null" class="modal fade"  th:attr="id='retourModal' + ${outil.id}"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Retour [[${outil.designation}]] [[${outil.numero_de_serie}]]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{'/outils/retour/?keyword=' +${keyword}+'&etalonnee=' +${etalonnee}}" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" id="outil" name="outil" th:value="${outil.id}">
+                        <input type="hidden" id="idES" name="idES" th:value="${outil.esEnCours.id}">
+
+
+                        <div class="row mb-3">
+                            <label for="utilisateur" class="form-label col-5">Utilisateur</label>
+                            <div class="col-7">
+                                [[${outil.esEnCours.utilisateur.nomPrenom}]]
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label for="date_sortie" class="form-label col-5">Date sortie</label>
+                            <div class="col-7">
+                                [[${outil.esEnCours.date_sortie}]]
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label for="date_de_retour_prevue" class="form-label col-5">Date de retour prévue</label>
+                            <div class="col-7">
+                                [[${outil.esEnCours.date_de_retour_prevue}]]
+                            </div>
+                        </div>
+
+
+                        <div th:if="${!(outil.esEnCours.motif eq T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).Etalonnage)}" class="row mb-3">
+                            <label for="date_retour" class="form-label col-5">Date retour</label>
+                                <div class="col-7">
+                                    <input type="date" class="form-control" name="date_retour" id="date_retour" th:value="${currentDate}" >
+                                </div>
+                        </div>
+                        <input th:unless="${!(outil.esEnCours.motif eq T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).Etalonnage)}" type="hidden" class="form-control" name="date_retour" id="date_retour" th:value="${currentDate}" >
+
+
+
+
+
+
+                        <div class="row mb-3">
+                            <label for="probleme" class="form-label col-5">Probleme</label>
+                            <div class="col-7">
+                                <input type="text" class="form-control" name="probleme" id="probleme" >
+                            </div>
+                        </div>
+
+
+                        <div th:if="${outil.esEnCours.motif eq T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).Etalonnage}" class="row mb-3">
+                            <label for="file" class="form-label col-5">Reference PV</label>
+<!--                            <div class="col-7">-->
+<!--                                <input type="text" class="form-control" name="referencePV" id="referencePV" >-->
+<!--                            </div>-->
+
+                            <div class="col-7">
+                                <input type="file" name="file" id="file" class="form-control-file">
+                            </div>
+
+                        </div>
+
+
+                        <div th:if="${outil.esEnCours.motif eq T(fr.hellocorp.projetmoscatelli.admin.entree_sortie.EntreeSortie.MotifEntreeSortie).Etalonnage}" class="row mb-3">
+                            <label for="date_etalonnage" class="form-label col-5">Date retour étalonnage</label>
+                            <div class="col-7">
+                                <input type="Date" class="form-control" name="date_etalonnage" id="date_etalonnage" th:value="${currentDate}" placeholder="JJ/MM/AAAA">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

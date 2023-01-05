@@ -1,0 +1,71 @@
+<div th:fragment="utilisateurs_edit" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+    <!-------------------------------------------------------- Modal Edit------------------------------------------------------>
+
+
+    <div class="modal fade"  th:attr="id='editModal'+*{utilisateur.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabelEdit">Modifier un utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form th:action="@{'/utilisateur/modifier/'+ ${utilisateur.id}+'?keyword=' +${keyword}}"  method="post">
+                        <input type="hidden" th:name="${utilisateur.id}">
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${utilisateur.nom}" class="form-control" id="nom1" name="nom1" >
+                            <label for="nom1">Nom</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${utilisateur.prenom}" class="form-control" id="prenom1" name="prenom1">
+                            <label for="prenom1">Prénom</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${utilisateur.email}" class="form-control" id="email1" name="email1">
+                            <label for="email1">E-mail</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" th:value="${utilisateur.mdp}" class="form-control" id="mdp1" name="mdp1">
+                            <label for="mdp1">Mot de passe</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${utilisateur.telephone}" class="form-control" id="telephone1" name="telephone1">
+                            <label for="telephone1">Téléphone</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Rôle</label>
+
+                            <th:block th:each="role : ${roles}">
+                                <input type="checkbox" class="m-2"
+                                       th:checked="${utilisateur.isUserInRole(role.nom)}"
+                                       th:value="${role.nom}"
+                                       th:text="${role.nom}"
+                                       th:id="${role.nom}"
+                                       th:name="droits[]"
+                                />
+                            </th:block>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

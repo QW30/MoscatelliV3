@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "run app",
+            "type": "maven",
+            "tasks": [
+                "integration-test"
+            ],
+            "environment": {
+                "DATABASE_URL" : "jdbc:mysql://127.0.0.1:3306/projetmoscatelli?createDatabaseIfNotExist=true",
+                "DATABASE_USER" : "root",
+                "DATABASE_PASSWORD" : "root"
+            },
+        }
+    ],
+
+}
